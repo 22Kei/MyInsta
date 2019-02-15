@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <ImageView
+        android:src="@drawable/logo_title"
+        android:layout_width="match_parent"
+        android:layout_height="374dp"
+        android:layout_above="@id/signin_layout"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp" />
+
+    <!--화면 아래에 버튼 생성-->
+    <LinearLayout
+        android:id="@+id/signin_layout"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/et_email"
+                android:hint="@string/email"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <!--inputType은 비밀번호가 *처리 되게 함-->
+            <EditText
+                android:id="@+id/et_password"
+                android:inputType="textPassword"
+                android:hint="@string/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </android.support.design.widget.TextInputLayout>
+
+        <!--테마는 values에 미리 설정해놓은 색깔임-->
+        <Button
+            android:id="@+id/bt_emailLogin"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/signin_email"
+            android:theme="@style/ButtonStyle"/>
+        
+        <Button
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_signin_facebook"
+            android:text="@string/signin_facebook"
+            android:textColor="@color/colorWhite"/>
+
+        <Button
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_signin_google"
+            android:text="@string/signin_google"
+            android:textColor="@color/colorWhite"/>
+
+        <Button
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/btn_signin_twitter"
+            android:text="@string/signin_twitter"
+            android:textColor="@color/colorWhite"/>
+
+
+    </LinearLayout>
+</RelativeLayout>
