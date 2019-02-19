@@ -72,7 +72,7 @@ class DetailviewFragment : Fragment() {
             return CustomViewHolder(view)
         }
 
-        inner class CustomViewHolder(view: View?) : RecyclerView.ViewHolder(view!!){}
+        private inner class CustomViewHolder(view: View?) : RecyclerView.ViewHolder(view!!){}
 
         override fun getItemCount(): Int { return contentDTOs.size }
 
@@ -91,8 +91,51 @@ class DetailviewFragment : Fragment() {
             Glide.with(holder.itemView.context)
                     .load(contentDTOs!![position].imageUrl)
                     .into(viewHolder.detailviewitem_imageview_content)
+
+            // 좋아요는 트랜잭션을 이용하여 구현
+            // 트랜잭션은 동시에 2명 이상이 접근하지 못하도록 하는 것
+            var uid = FirebaseAuth.getInstance().currentUser!!.uid
+            viewHolder.detailviewitem_favorite_imageview.setOnClickListener {
+                likeEvent(position)
+            }
+
+
+            // 좋아요를 클릭했을 때
+            if(contentDTOs!![position].likes.containsKey(uid)){
+                viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite)
+            }
+            // 좋아요를 클릭하지 않았을 경우
+            else{
+                viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
+            }
+       }
+
+        private  fun likeEvent(position: Int){
+            // 게시물에 대한 경로를 가져옴
+            var tsDoc = firestore?.collection("images")
+                    ?.document(contentUidList[position])
+
+            firestore?.runTransaction {
+                transaction ->
+                var uid = FirebaseAuth.getInstance().currentUser?.uid
+                // tsDoc에 저장된 경로에 접근해서 그 게시물에 대한 정보를 가져옴
+                // 다른 사용자가 접근할 수 없음 -> 트랜잭션이기 때문
+                var contentDTO = transaction.get(tsDoc!!).toObject(ContentDTO::class.java)
+
+                // 사용자에 대한 고유 해시값이 있는지 확인하는 것, 있으면 좋아요를 누른 상태
+                if(contentDTO!!.likes.containsKey(uid)){ //좋아요를 누른 상태
+                    contentDTO?.likeCount = contentDTO.likeCount - 1
+                    contentDTO?.likes.remove(uid)
+
+
+                }
+                else{ //좋아요를 누르지 않은 상태
+                    contentDTO?.likes[uid!!] = true
+                    contentDTO?.likeCount = contentDTO?.likeCount + 1
+                }
+                transaction.set(tsDoc, contentDTO) // 설정값을 변경해주겠다는 의미
+            }
+            // 파이어베이스의 최고 장점: 바로바로 동기화가 됨
         }
     }
-
-
 }
