@@ -168,10 +168,22 @@ class LoginActivity : AppCompatActivity() {
                 })
     }
 
-    // 페이스북 로그인 결과를 Firebase로 넘겨줌줌
+    // 페이스북 로그인 결과를 Firebase로 넘겨줌
     fun handleFacebookAccessToken(token: AccessToken?){
         var credential = FacebookAuthProvider.getCredential(token?.token!!)
-        auth?.signInWithCredential(credential)
+        auth?.signInWithCredential(credential)?.addOnCompleteListener {
+            //결과값을 받는 부분 == callback
+            task ->
+            if(task.isSuccessful){
+                moveMainPage(auth?.currentUser);
+            }
+        }
+    }
+
+    // 자동로그인 기능
+    override fun onResume() {
+        super.onResume()
+        moveMainPage(auth?.currentUser)
     }
 
 
