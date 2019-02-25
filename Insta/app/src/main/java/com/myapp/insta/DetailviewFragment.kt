@@ -1,6 +1,7 @@
 package com.myapp.insta
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -51,6 +52,8 @@ class DetailviewFragment : Fragment() {
                     ?.orderBy("timeStamp")
                     ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
 
+                        if(querySnapshot == null)
+                            return@addSnapshotListener
                         // 불러올때마다 clear를 해줘서 중복된 데이터가 쌓이지 않도록 함
                         contentDTOs.clear()
                         contentUidList.clear()
@@ -108,6 +111,24 @@ class DetailviewFragment : Fragment() {
             else{
                 viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
             }
+
+            // 프로필 이미지를 누를때마다 사용자 정보창이 변함
+            viewHolder.detailviewitem_profile_image.setOnClickListener {
+                var fragment = UserFragment()
+                var bundle = Bundle()
+                bundle.putString("destinationUid", contentDTOs[position].uid)
+                bundle.putString("userId", contentDTOs[position].userId)
+                fragment.arguments = bundle
+                activity!!.supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_content, fragment).commit()
+            }
+
+            viewHolder.detailviewitem_comment_imageview.setOnClickListener {v ->
+                var intent = Intent(v.context, CommentActivity::class.java)
+                intent.putExtra("contentUid", contentUidList[position])
+                startActivity(intent)
+            }
+
        }
 
         private  fun likeEvent(position: Int){

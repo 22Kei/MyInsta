@@ -141,8 +141,12 @@ class LoginActivity : AppCompatActivity() {
 
         // 인증서를 만듦
         var credential = GoogleAuthProvider.getCredential(account.idToken, null)
-        auth?.signInWithCredential(credential) // 구글 아이디로 만들어지게 됨
-
+        // 구글 아이디로 만들어지게 됨
+        auth?.signInWithCredential(credential)?.addOnCompleteListener {task ->
+            if(task.isSuccessful){
+                moveMainPage(auth?.currentUser)
+            }
+        }
     }
 
     fun facebookLogin(){

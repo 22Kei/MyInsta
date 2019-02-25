@@ -1,6 +1,5 @@
 package com.myapp.insta.model
 
-import com.facebook.internal.Mutable
 
 // data model은 데이터를 주고받기 쉽도록 틀 같은것을 만드는 것
 data class ContentDTO(var explain: String? = null,

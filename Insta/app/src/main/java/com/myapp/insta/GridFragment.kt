@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.myapp.insta.model.ContentDTO
+import kotlinx.android.synthetic.main.fragment_grid.view.*  // findviewId가 필요 없어짐
 
 class GridFragment : Fragment() {
 
@@ -24,9 +25,8 @@ class GridFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         mainView = inflater.inflate(R.layout.fragment_grid, container, false)
-        var recyclerView = mainView?.findViewById<RecyclerView>(R.id.gridfragment_recyclerview)
-        recyclerView?.adapter = GridFragmentRecyclerViewAdapter()
-        recyclerView?.layoutManager = GridLayoutManager(activity, 3)
+        mainView?.gridfragment_recyclerview?.adapter = GridFragmentRecyclerViewAdapter()
+        mainView?.gridfragment_recyclerview?.layoutManager = GridLayoutManager(activity, 3)
 
         return mainView
     }
