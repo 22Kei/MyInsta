@@ -11,9 +11,9 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.view.MenuItem
 import android.view.View
-import com.facebook.login.Login
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
 
             R.id.action_likeAlarm -> {
-                var alertFragment = AlertFragment()
+                var alertFragment = AlarmFragment()
 
                 supportFragmentManager.beginTransaction()
                         .replace(R.id.main_content, alertFragment)
@@ -99,6 +99,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         //사진을 갖고 올수 있는 권한을 받아옴
         ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+
+        registerPushToken()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -126,6 +128,25 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         }
     }
+
+
+    // 토큰은 단말기 주소를 암호화 시킨 것
+    // backgroundpushing 과 foregroundpushing이 있는데
+    // back은 앱이 꺼진 상태에서, fore는 앱이 켜진 상태에서 메시지를 보내는 것것
+
+    fun registerPushToken(){
+        var pushToken = FirebaseInstanceId.getInstance().token
+        var uid = FirebaseAuth.getInstance().currentUser?.uid
+        var map = mutableMapOf<String, Any>()
+
+        map["pushToken"] = pushToken!!
+        FirebaseFirestore.getInstance().collection("pushTokens")
+                .document(uid!!).set(map)
+
+    }
+
+
+
 
     fun setToolbarDefault(){
         toolbar_btn_back.visibility = View.GONE // 없애주겠다는 의미, 공간 자체가 사라짐

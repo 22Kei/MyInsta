@@ -14,6 +14,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
 import com.myapp.insta.model.ContentDTO
 import kotlinx.android.synthetic.main.fragment_grid.view.*  // findviewId가 필요 없어짐
 
@@ -72,6 +73,22 @@ class GridFragment : Fragment() {
             Glide.with(holder.itemView.context).load(contentDTOs[position].imageUrl)
                     .apply(RequestOptions().centerCrop()) // 이미지를 중앙에 맞춤
                     .into(imageView)
+
+            imageView.setOnClickListener {
+                val fragment = UserFragment()
+                val bundle = Bundle()
+                bundle.putString("destinationUid", contentDTOs[position].uid)
+                bundle.putString("userId", contentDTOs[position].userId)
+
+                fragment.arguments = bundle // activity는 intent
+                // argument, bundle은 fragment 초기에만 사용
+                // 중간부터는 function을 사용하는 것이 편함
+
+                activity?.supportFragmentManager?.beginTransaction()
+                        ?.replace(R.id.main_content, fragment)?.commit()
+                // 원래는 context.supportFragmentManager 이지만 fragment에는 context가 없기
+                // 때문에 activity. 을 사용함
+            }
         }
 
     }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:layout_width="match_parent"
@@ -13,7 +14,7 @@
 
     <TextView
         android:id="@+id/commentViewItem_textview_profile"
-        android:text="유저 아이디"
+        tools:text="유저 아이디"
         android:textStyle="bold"
         android:layout_margin="7.5dp"
         android:layout_width="wrap_content"
@@ -21,7 +22,7 @@
 
     <TextView
         android:id="@+id/commentViewItem_textview_comment"
-        android:text="유저 아이디"
+        tools:text="메세지"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

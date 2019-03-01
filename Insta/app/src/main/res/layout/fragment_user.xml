@@ -48,7 +48,7 @@
 
                 <TextView
                     android:id="@+id/account_iv_post_count"
-                    android:text="@string/count_0"
+                    android:text="0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -88,7 +88,7 @@
 
                 <TextView
                     android:id="@+id/account_tv_following_count"
-                    android:text="@string/count_0"
+                    android:text="0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
